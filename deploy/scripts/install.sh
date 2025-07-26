@@ -1,3 +1,3 @@
 #!/bin/bash
-yum update -y
-mkdir -p /home/ec2-user/app
+echo "Installing dependencies..." >> /home/ec2-user/deploy.log
+yum install -y httpd

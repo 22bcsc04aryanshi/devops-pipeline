@@ -21,16 +21,18 @@ This project sets up a complete CI/CD pipeline with AWS (CodePipeline, CodeBuild
 
 ## 🛡️ Task 2: DevSecOps Integration
 
-- **Tools:** GitHub Actions, tfsec, Trivy, Sealed Secrets
-- **Workflow:** `.github/workflows/devsecops.yml`
-  - Scans Terraform code (tfsec)
-  - Scans Dockerfile & files (Trivy)
-  - Can add sealed secrets for Kubernetes
+### 🔒 Tools Used:
+- **tfsec**: Scans Terraform code for security vulnerabilities.
+- **Trivy**: Scans the filesystem and Dockerfile for vulnerabilities.
+- **Sealed Secrets**: Securely manages Kubernetes secrets in version control.
+- **GitHub Actions**: Automates security scanning on push and PRs.
 
----
+### ✅ GitHub Workflow (`.github/workflows/devsecops.yml`)
+- Triggered on `push` or `pull_request` to the `main` branch.
+- Runs `tfsec` on Terraform code.
+- Installs and runs `Trivy` to scan Dockerfile and local files.
+- You can extend this to include `kubesec` or `kube-score` later.
 
-# How to Run?
 
-terraform init && terraform apply       # Task 1 Infra
-git push origin main                    # Triggers pipeline + DevSecOps
+
 

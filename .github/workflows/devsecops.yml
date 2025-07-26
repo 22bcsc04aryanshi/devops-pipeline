@@ -1,0 +1,32 @@
+name: DevSecOps Scan
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  security-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Run tfsec (Terraform Security Scan)
+      uses: aquasecurity/tfsec-action@v1.0.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Install Trivy
+      run: |
+        sudo apt-get update
+        sudo apt-get install wget apt-transport-https gnupg lsb-release -y
+        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+        echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+        sudo apt-get update
+        sudo apt-get install trivy -y
+
+    - name: Trivy scan filesystem
+      run: trivy fs . --exit-code 0 --severity HIGH,CRITICAL

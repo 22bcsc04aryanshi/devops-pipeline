@@ -1,10 +1,8 @@
 "terraform.tfvars" 
+# Terraform build files
 .terraform/
-*.zip
-*.log
-*.tar
-*.gz
-*.tmp
 *.tfstate
 *.tfstate.backup
+*.zip
+*.log
 deploy.zip

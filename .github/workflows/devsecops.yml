@@ -7,21 +7,22 @@ on:
     branches: [ "main" ]
 
 jobs:
-  security-checks:
+  devsecops:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Run tfsec (Terraform Security Scan)
+      - name: tfsec scan
         uses: aquasecurity/tfsec-action@v1.0.0
 
       - name: Install Trivy
         run: |
           sudo apt-get update
           sudo apt-get install wget gnupg lsb-release -y
-          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo gpg --dearmor -o /usr/share/keyrings/trivy-archive-keyring.gpg
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor > trivy.gpg
+          sudo mv trivy.gpg /usr/share/keyrings/trivy-archive-keyring.gpg
           echo "deb [signed-by=/usr/share/keyrings/trivy-archive-keyring.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/trivy.list
           sudo apt-get update
           sudo apt-get install trivy -y

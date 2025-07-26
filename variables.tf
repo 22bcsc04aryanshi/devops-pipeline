@@ -1,9 +1,9 @@
-variable "github_token" {
-  type        = string
-  description = "GitHub OAuth Token for CodePipeline"
-  sensitive   = true
-}
-
 variable "region" {
   default = "ap-south-1"
 }
+
+variable "github_token" {
+  description = "GitHub personal access token"
+  type        = string
+}
+

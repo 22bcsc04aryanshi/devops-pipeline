@@ -1,3 +1,4 @@
 #!/bin/bash
-cd /home/ec2-user/app
-echo "<h1>Deployed via CodeDeploy 🚀</h1>" > index.html
+echo "Starting httpd..." >> /home/ec2-user/deploy.log
+systemctl start httpd
+

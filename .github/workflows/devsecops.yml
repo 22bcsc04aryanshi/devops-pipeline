@@ -11,22 +11,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Run tfsec (Terraform Security Scan)
-      uses: aquasecurity/tfsec-action@v1.0.0
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run tfsec (Terraform Security Scan)
+        uses: aquasecurity/tfsec-action@v1.0.0
 
-    - name: Install Trivy
-      run: |
-        sudo apt-get update
-        sudo apt-get install wget apt-transport-https gnupg lsb-release -y
-        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
-        echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
-        sudo apt-get update
-        sudo apt-get install trivy -y
+      - name: Install Trivy
+        run: |
+          sudo apt-get update
+          sudo apt-get install wget gnupg lsb-release -y
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo gpg --dearmor -o /usr/share/keyrings/trivy-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/trivy-archive-keyring.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install trivy -y
 
-    - name: Trivy scan filesystem
-      run: trivy fs . --exit-code 0 --severity HIGH,CRITICAL
+      - name: Trivy filesystem scan
+        run: trivy fs . --exit-code 0 --severity HIGH,CRITICAL

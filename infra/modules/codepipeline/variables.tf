@@ -1,31 +1,10 @@
-variable "github_token" {
-  type = string
-}
+variable "codepipeline_role_arn" {}
+variable "github_owner" {}
+variable "github_repo" {}
+variable "artifact_bucket" {}
+variable "build_project_id" {}
+variable "codedeploy_app" {}
+variable "codedeploy_group" {}
+variable "codestar_connection_arn" {}
 
-variable "github_owner" {
-  type = string
-}
 
-variable "github_repo" {
-  type = string
-}
-
-variable "artifact_bucket" {
-  type = string
-}
-
-variable "build_project_id" {
-  type = string
-}
-
-variable "codedeploy_app" {
-  type = string
-}
-
-variable "codedeploy_group" {
-  type = string
-}
-
-variable "codepipeline_role_arn" {
-  type = string
-}

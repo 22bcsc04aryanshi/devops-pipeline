@@ -4,7 +4,10 @@ module "s3" {
 
 module "iam" {
   source = "./infra/modules/iam"
+  artifact_bucket = module.s3.bucket_name
 }
+
+
 
 module "ec2" {
   source          = "./infra/modules/ec2"
@@ -28,15 +31,18 @@ module "codedeploy" {
 
 
 module "codepipeline" {
-  source = "./infra/modules/codepipeline"
+  source                   = "./infra/modules/codepipeline"
 
-  github_token         = var.github_token
-  github_owner         = "22bcsc04aryanshi"                # Your GitHub username
-  github_repo          = "devops-pipeline"                 # Your GitHub repo name
-  artifact_bucket      = module.s3.bucket_name
-  build_project_id     = module.codebuild.project_id
-  codedeploy_app       = module.codedeploy.app_name
-  codedeploy_group     = module.codedeploy.group_name
-  codepipeline_role_arn = module.iam.codepipeline_role_arn
+  codepipeline_role_arn    = module.iam.codepipeline_role_arn
+  github_owner             = "22bcsc04aryanshi"
+  github_repo              = "devops-pipeline"
+  artifact_bucket          = module.s3.bucket_name
+  build_project_id         = module.codebuild.project_id
+  codedeploy_app           = module.codedeploy.app_name
+  codedeploy_group         = module.codedeploy.group_name
+
+  codestar_connection_arn  = "arn:aws:codeconnections:ap-south-1:660380598349:connection/730bc345-06cc-42ae-a9ec-8c8a9aae0124"
 }
+
+
 

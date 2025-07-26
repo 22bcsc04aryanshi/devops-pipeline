@@ -3,7 +3,7 @@ variable "region" {
 }
 
 variable "github_token" {
+  sensitive   = true
   description = "GitHub personal access token"
-  type        = string
 }
 

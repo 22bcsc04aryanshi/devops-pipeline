@@ -1,1 +1,8 @@
 "terraform.tfvars" 
+.terraform/
+*.zip
+*.log
+*.tar
+*.gz
+*.tmp
+deploy.zip

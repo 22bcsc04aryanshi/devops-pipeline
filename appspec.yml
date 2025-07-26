@@ -1,0 +1,21 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/html
+
+hooks:
+  ApplicationStop:
+    - location: deploy/scripts/stop.sh
+      timeout: 300
+      runas: root
+
+  BeforeInstall:
+    - location: deploy/scripts/install.sh
+      timeout: 300
+      runas: root
+
+  AfterInstall:
+    - location: deploy/scripts/start.sh
+      timeout: 300
+      runas: root
